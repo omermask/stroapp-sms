@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security Issue / مشكلة أمنية
+    url: https://github.com/omermask/stroapp-sms/security/advisories/new
+    about: Report a security vulnerability / الإبلاغ عن ثغرة أمنية
+  - name: Documentation / توثيق
+    url: https://github.com/omermask/stroapp-sms/blob/main/README.md
+    about: Check the README for documentation / راجع ملف README للتوثيق
