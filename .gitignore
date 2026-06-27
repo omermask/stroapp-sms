@@ -1,0 +1,41 @@
+# Environment
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Logs
+logs/
+*.log
+
+# Database
+dump.rdb
+
+# Secrets / Keys
+stroapp-sms-*.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing / Reports
+htmlcov/
+.coverage
+
+# Docker
+*.pid

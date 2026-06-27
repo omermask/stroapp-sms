@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "719935175700",
+    "project_id": "stroapp-sms-97dde",
+    "storage_bucket": "stroapp-sms-97dde.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:719935175700:android:4039a70c9fa5e8863cfb01",
+        "android_client_info": {
+          "package_name": "com.stroapp.stroapp_user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "719935175700-upebld4htr136ug0bufp9i1jordgoqgo.apps.googleusercontent.com",
+          "client_type": 1
+        },
+        {
+          "client_id": "719935175700-4iiceen73foble75s8pt1aien8etp22m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrLjhfirjlKVoSBnr7na3R_KJQHvXuvKg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

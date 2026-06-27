@@ -1,0 +1,36 @@
+name: Deploy to Google Cloud
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - name: Build and push Docker image
+        run: |
+          docker build -t gcr.io/${{ secrets.GCP_PROJECT }}/stroapp-sms:${{ github.sha }} .
+          docker push gcr.io/${{ secrets.GCP_PROJECT }}/stroapp-sms:${{ github.sha }}
+      - name: Deploy to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service: stroapp-sms-api
+          image: gcr.io/${{ secrets.GCP_PROJECT }}/stroapp-sms:${{ github.sha }}
+          region: us-central1
+          env: |
+            ENVIRONMENT=production
+            DATABASE_URL=postgresql://stroapp:${DB_PASS}@${DB_HOST}:5432/stroapp
+            REDIS_URL=redis://${REDIS_HOST}:6379/0
+            JWT_SECRET=${JWT_SECRET}
+            GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+            GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+            APPLE_CLIENT_ID=${APPLE_CLIENT_ID}
+            APPLE_TEAM_ID=${APPLE_TEAM_ID}
+            APPLE_KEY_ID=${APPLE_KEY_ID}
+            APPLE_PRIVATE_KEY=${APPLE_PRIVATE_KEY}
+            ENCRYPTION_KEY=${ENCRYPTION_KEY}
+            SENTRY_DSN=${SENTRY_DSN}

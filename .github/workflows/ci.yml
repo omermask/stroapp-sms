@@ -1,0 +1,49 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: stroapp
+          POSTGRES_PASSWORD: stroapp_pass
+          POSTGRES_DB: stroapp
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run migrations
+        run: alembic upgrade head
+        env:
+          DATABASE_URL: postgresql://stroapp:stroapp_pass@localhost:5432/stroapp
+      - name: Compile check
+        run: python -m py_compile main.py
+        env:
+          DATABASE_URL: postgresql://stroapp:stroapp_pass@localhost:5432/stroapp
+      - name: App import test
+        run: python -c "from app.core.config import get_settings; s = get_settings(); print(f'Config OK: {s.app_name}')"
+        env:
+          DATABASE_URL: postgresql://stroapp:stroapp_pass@localhost:5432/stroapp
+          JWT_SECRET: test-jwt-secret-min-32-chars-here!!!!
+          GOOGLE_CLIENT_ID: test
+          GOOGLE_CLIENT_SECRET: test
+          APPLE_CLIENT_ID: test
+          APPLE_TEAM_ID: test
+          APPLE_KEY_ID: test
+          APPLE_PRIVATE_KEY: test
+          ENCRYPTION_KEY: test-key-that-is-at-least-32-bytes-long!!
