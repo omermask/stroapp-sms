@@ -1,0 +1,30 @@
+name: stroapp_sms_admin
+description: "Admin dashboard for stroapp-sms"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
+  dio: ^5.7.0
+  shared_preferences: ^2.5.3
+  fl_chart: ^0.70.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+  fonts:
+    - family: QasehIcons
+      fonts:
+        - asset: assets/icon/QasehIcons.ttf

@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: stroapp
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-stroapp_pass}
+      POSTGRES_DB: stroapp
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U stroapp"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: .
+    ports:
+      - "9527:9527"
+    environment:
+      ENVIRONMENT: production
+      DATABASE_URL: postgresql://stroapp:${POSTGRES_PASSWORD:-stroapp_pass}@postgres:5432/stroapp
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: ${SECRET_KEY}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      SMSMAN_API_KEY: ${SMSMAN_API_KEY}
+      FIVESIM_API_KEY: ${FIVESIM_API_KEY}
+      SMSACTIVATE_API_KEY: ${SMSACTIVATE_API_KEY}
+      SMSPOOL_API_KEY: ${SMSPOOL_API_KEY}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      APPLE_CLIENT_ID: ${APPLE_CLIENT_ID}
+      SENTRY_DSN: ${SENTRY_DSN:-}
+      BASE_URL: ${BASE_URL:-http://localhost:9527}
+      CORS_ORIGINS: ${CORS_ORIGINS:-*}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS:-*}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
