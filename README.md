@@ -592,6 +592,8 @@ All rights reserved. This project is proprietary software.
 
 ## 📞 Support
 
+- **Author**: Omer Jasim — [oj33593@gmail.com](mailto:oj33593@gmail.com)
 - **API Docs**: `/stroapp/docs` (Swagger), `/stroapp/redoc` (ReDoc)
 - **Admin Panel**: Accessible via the admin Flutter app
-- **Issues**: Report via GitHub Issues
+- **Issues**: Report via [GitHub Issues](https://github.com/omermask/stroapp-sms/issues)
+- **Security**: Report via [Security Advisories](https://github.com/omermask/stroapp-sms/security/advisories/new)
